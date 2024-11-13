@@ -1,0 +1,69 @@
+/* Filename - App.css */
+
+
+
+
+
+.container {
+    display: flex;
+    justify-content: center;
+
+    margin: auto;
+}
+
+.flip-card {
+    perspective: 1000px;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.flip-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.flip-card-front,
+.flip-card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: lightgray;
+    color: black;
+}
+
+.flip-card-back {
+    background-color: #fbd7f8;
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.flip-button {
+    /* width: 100px;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: #f5d9fa;
+    border: none;
+    border-radius: 5px; */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0%;
+}
