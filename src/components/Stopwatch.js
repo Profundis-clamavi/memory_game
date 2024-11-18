@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import "./stopwatch.css";
 
-const Stopwatch = ({ isRunning }) => {
+const Stopwatch = ({ isRunning, reset }) => {
     const [time, setTime] = useState(0);
 
     // const [isRunning, setIsRunning] = useState(false);
-
+    // setTime(currentTime);
 
 
     useEffect(() => {
@@ -15,6 +15,12 @@ const Stopwatch = ({ isRunning }) => {
         }
         return () => clearInterval(intervalId);
     }, [isRunning, time]);
+
+    useEffect(() => {
+        if (reset) {
+            setTime(0);  // Reset the time
+        }
+    }, [reset]);
 
     const hours = Math.floor(time / 360000);
 
@@ -28,9 +34,9 @@ const Stopwatch = ({ isRunning }) => {
     //     setIsRunning(!isRunning);
     // };
 
-    const reset = () => {
-        setTime(0);
-    };
+    // const reset = () => {
+    //     setTime(0);
+    // };
 
     return (
         <div className="stopwatch-container">

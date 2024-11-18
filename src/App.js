@@ -76,6 +76,7 @@ function App() {
   const [matches, setMatches] = useState(0);
   const [flippedState, setFlippedState] = useState({});
   const [matchedCards, setMatchedCards] = useState([]);
+  const [stopwatchReset, setStopwatchReset] = useState(false)
 
 
   useEffect(() => {
@@ -132,12 +133,32 @@ function App() {
       ]);
       setFlippedCount((prevCount) => prevCount + 1);
     }
+
+
+  };
+  const resetGame = () => {
+    //reset states
+    setFlippedCards([]);
+    setMatches(0);
+    setMatchedCards([]);
+    setFlippedCount(0);
+
+    // Reset flipped state for all cards
+    const initialFlippedState = cards.reduce((acc, card) => {
+      acc[card.id] = false; // Set each card's flipped state to false
+      return acc;
+    }, {});
+
+    setFlippedState(initialFlippedState);
+    setCards(shuffleCards(allCards)); // Reshuffle cards to start a new game
+
+    setStopwatchReset(true);
   };
 
 
   return (
     <>
-      <Stopwatch isRunning={flippedCount > 0 && matches != 8} />
+      <Stopwatch isRunning={flippedCount > 0 && matches !== 8} reset={stopwatchReset} />
       <div style={{
         width: "50%",
         height: "70%",
@@ -163,6 +184,7 @@ function App() {
         ))}
         <div>number of cards flipped: {flippedCount}</div>
         <div>Matches found: {matches}</div>
+        <button onClick={resetGame}>reset</button>
 
 
 
