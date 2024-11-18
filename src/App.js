@@ -76,7 +76,32 @@ function App() {
   const [matches, setMatches] = useState(0);
   const [flippedState, setFlippedState] = useState({});
   const [matchedCards, setMatchedCards] = useState([]);
-  const [stopwatchReset, setStopwatchReset] = useState(false)
+  const [stopwatchReset, setStopwatchReset] = useState();
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+
+  // Load top 5 fastest runs from localStorage
+  const [topRuns, setTopRuns] = useState(() => {
+    const savedRuns = JSON.parse(localStorage.getItem('topRuns'));
+    return savedRuns ? savedRuns : [];
+  });
+
+  // Handle the end of the game
+  const handleGameEnd = () => {
+    // Add the elapsed time to the list of top runs
+    const newTopRuns = [...topRuns, elapsedTime].sort((a, b) => a - b).slice(0, 5); // Sort and keep only the top 5 times
+    setTopRuns(newTopRuns);
+
+    // Save the updated top 5 times to localStorage
+    localStorage.setItem('topRuns', JSON.stringify(newTopRuns));
+  };
+  useEffect(() => {
+    // Reset the game state when all matches are found
+    if (matches === 8) {
+      handleGameEnd();
+    }
+  }, [matches]);
+
 
 
   useEffect(() => {
@@ -151,14 +176,31 @@ function App() {
 
     setFlippedState(initialFlippedState);
     setCards(shuffleCards(allCards)); // Reshuffle cards to start a new game
+    setElapsedTime(0);
+
+
 
     setStopwatchReset(true);
+
+
+
+    setTimeout(() => {
+      setStopwatchReset(false);
+    }, 200);
   };
+
+
+
+
+
 
 
   return (
     <>
-      <Stopwatch isRunning={flippedCount > 0 && matches !== 8} reset={stopwatchReset} />
+      <Stopwatch isRunning={flippedCount > 0 && matches !== 8}
+        reset={stopwatchReset}
+        setElapsedTime={setElapsedTime}
+      />
       <div style={{
         width: "50%",
         height: "70%",
@@ -175,7 +217,7 @@ function App() {
         {cards.map((card) => (
           <Card2
             key={card.id}
-            front={card.front}
+            // front={card.front}
             background={card.background}
             isFlipped={flippedState[card.id]}
             onFlip={() => handleCardFlip(card.id, card.pair)} // Pass the callback to Card2
@@ -189,6 +231,16 @@ function App() {
 
 
       </div >
+      <div>
+        <h2>Top 5 Fastest Runs:</h2>
+        <ol>
+          {topRuns.map((time, index) => (
+            <li key={index}>
+              {new Date(time * 10).toISOString().slice(14, 22)} seconds
+            </li>
+          ))}
+        </ol>
+      </div>
 
     </>
   );
