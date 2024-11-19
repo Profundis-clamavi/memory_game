@@ -197,49 +197,56 @@ function App() {
 
   return (
     <>
-      <Stopwatch isRunning={flippedCount > 0 && matches !== 8}
+      {/* <Stopwatch isRunning={flippedCount > 0 && matches !== 8}
         reset={stopwatchReset}
         setElapsedTime={setElapsedTime}
-      />
-      <div style={{
-        width: "50%",
-        height: "70%",
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gridTemplateRows: "repeat(4, 1fr)",
-        gridColumnGap: "4px",
-        gridRowGap: "4px"
-      }}>
+      /> */}
+      <div style={{ display: "flex" }}>
+        <div style={{
+          width: "50%",
+          height: "70%",
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateRows: "repeat(4, 1fr)",
+          gridColumnGap: "4px",
+          gridRowGap: "4px"
+        }}>
 
 
-        {/* {shuffledCards} */}
+          {/* {shuffledCards} */}
 
-        {cards.map((card) => (
-          <Card2
-            key={card.id}
-            // front={card.front}
-            background={card.background}
-            isFlipped={flippedState[card.id]}
-            onFlip={() => handleCardFlip(card.id, card.pair)} // Pass the callback to Card2
-            isHidden={matchedCards.includes(card.id)} //checks to see if the card is in the matched array
-          />
-        ))}
-        <div>number of cards flipped: {flippedCount}</div>
-        <div>Matches found: {matches}</div>
-        <button onClick={resetGame}>reset</button>
-
-
-
-      </div >
-      <div>
-        <h2>Top 5 Fastest Runs:</h2>
-        <ol>
-          {topRuns.map((time, index) => (
-            <li key={index}>
-              {new Date(time * 10).toISOString().slice(14, 22)} seconds
-            </li>
+          {cards.map((card) => (
+            <Card2
+              key={card.id}
+              // front={card.front}
+              background={card.background}
+              isFlipped={flippedState[card.id]}
+              onFlip={() => handleCardFlip(card.id, card.pair)} // Pass the callback to Card2
+              isHidden={matchedCards.includes(card.id)} //checks to see if the card is in the matched array
+            />
           ))}
-        </ol>
+          <div>number of cards flipped: {flippedCount}</div>
+          <div>Matches found: {matches}</div>
+          <button onClick={resetGame}>reset</button>
+
+
+
+        </div >
+        <div style={{ display: "flex" }}>
+          <Stopwatch isRunning={flippedCount > 0 && matches !== 8}
+            reset={stopwatchReset}
+            setElapsedTime={setElapsedTime}
+          />
+          <h2>Top 5 Fastest Runs:</h2>
+          <ol>
+            {topRuns.map((time, index) => (
+              <li key={index}>
+                {new Date(time * 10).toISOString().slice(14, 22)} seconds
+              </li>
+            ))}
+          </ol>
+        </div>
+
       </div>
 
     </>
